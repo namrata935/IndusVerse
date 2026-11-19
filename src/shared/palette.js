@@ -1,0 +1,23 @@
+// Shared colour palette — warm baked brick against cool lapis / turquoise / green accents.
+export const PALETTE = {
+  terracotta: 0xb5573a,
+  redOrange: 0xc4512c,
+  deepBrown: 0x6e3a26,
+  darkFired: 0x43271f,
+  lapis: 0x26619c,
+  turquoise: 0x1fa6a0,
+  faience: 0x35b8b0,
+  carnelian: 0xd1452b,
+  madder: 0x9d2235,
+  indigo: 0x2d2f6b,
+  ochre: 0xd9a23a,
+  bronze: 0xb8733a,
+  copper: 0xc7704a,
+  leaf: 0x4f8a3c,
+  leafDark: 0x2f6b3a,
+  reed: 0x7fa04a,
+  river: 0x1b8f9a,
+  plaster: 0xe6d3b0,
+  skin: [0x8a5a3c, 0x7a4b30, 0x9a6a46, 0x6f4329],
+  cloth: [0xc23b22, 0x2d2f6b, 0xd9a23a, 0x1fa6a0, 0x9d2235, 0x26619c],
+};

@@ -1,0 +1,120 @@
+{
+  "menu": {
+    "greatBath": {
+      "title": "The Great Bath and the Citadel",
+      "description": "Climb the raised brick citadel and stand beside the sunken pool of Mohenjo-daro.",
+      "accent": "#1fa6a0",
+      "available": true
+    },
+    "townPlanning": {
+      "title": "Town Planning and Houses",
+      "description": "Walk the grid of streets and step inside the courtyard homes of the lower town.",
+      "accent": "#c4512c",
+      "available": false
+    },
+    "drainage": {
+      "title": "The Drainage and Water System",
+      "description": "Follow covered brick drains and wells that kept a 4,500-year-old city clean.",
+      "accent": "#26619c",
+      "available": false
+    },
+    "market": {
+      "title": "Marketplace, Trade and Crafts",
+      "description": "Meet potters, bead-makers and traders whose goods travelled across continents.",
+      "accent": "#d9a23a",
+      "available": false
+    },
+    "dock": {
+      "title": "The River, the Dockyard and Dusk",
+      "description": "Watch boats on the Indus as lamps are lit across the city at nightfall.",
+      "accent": "#9d2235",
+      "available": false
+    }
+  },
+  "ui": {
+    "comingSoon": "Coming soon",
+    "chooseButton": "Choose a place to explore",
+    "backToMenu": "Back to menu",
+    "toEntry": "Return to the street",
+    "tourStart": "Start guided tour",
+    "tourSkip": "Next stop",
+    "tourExit": "Exit tour",
+    "didYouKnow": "Did you know?",
+    "comingSoonBody": "This place is still being built. It will arrive in a later phase of IndusVerse."
+  },
+  "entry": {
+    "intro": {
+      "title": "Welcome to the Indus Valley",
+      "text": "You are standing in a street of a city like Mohenjo-daro, as it may have looked around 4,500 years ago. The Indus Valley Civilization was one of the world's earliest urban cultures, with planned streets, baked-brick houses and covered drains."
+    },
+    "hint": {
+      "text": "Walk with W A S D and look by dragging the mouse. Glowing signposts mark the five places you can explore."
+    },
+    "portal_greatBath": { "title": "The Great Bath and the Citadel", "text": "A raised citadel with a sunken brick pool." },
+    "portal_townPlanning": { "title": "Town Planning and Houses", "text": "Streets laid out on a grid." },
+    "portal_drainage": { "title": "The Drainage and Water System", "text": "Covered drains and wells." },
+    "portal_market": { "title": "Marketplace, Trade and Crafts", "text": "Potters, bead-makers and traders." },
+    "portal_dock": { "title": "The River, the Dockyard and Dusk", "text": "Boats on the river as night falls." }
+  },
+  "greatBath": {
+    "enter": {
+      "title": "The Citadel of Mohenjo-daro",
+      "text": "Rising above the lower town, the citadel stood on a huge platform of mud and baked brick. Here lay the Great Bath, one of the best-preserved structures of the civilization. Use the tour for a guided walk, or explore on your own."
+    },
+    "tour_approach": {
+      "title": "The approach",
+      "text": "From the lower town, a brick stairway climbs the citadel platform. Raising the platform may have helped protect these buildings from floods, and it certainly made them stand out."
+    },
+    "tour_overview": {
+      "title": "An overview",
+      "text": "From above you can see the Great Bath at the centre, with the Granary to its west. Scholars still debate how the citadel's buildings were used, and the names we give them are modern."
+    },
+    "tour_steps": {
+      "title": "The steps",
+      "text": "Flights of brick steps lead down into the pool at both short ends. Low platforms beside them may have been used for resting or for changing."
+    },
+    "tour_water": {
+      "title": "The water",
+      "text": "The pool is about 12 metres long, 7 metres wide and 2.4 metres deep. Water was probably carried in from a nearby well and let out through a drain in a corner of the pool."
+    },
+    "tour_corridors": {
+      "title": "The corridors",
+      "text": "A brick corridor with a row of pillars ran around the pool. Rooms opened off it, and a staircase suggests an upper storey that has since been lost."
+    },
+    "tour_granary": {
+      "title": "The 'Granary'",
+      "text": "To the west stands a large raised brick platform called the Granary. Its true function is debated: it may have stored grain, but some scholars think it served another purpose."
+    },
+    "hotspot_steps": {
+      "title": "Steps into the pool",
+      "text": "Wide brick steps run down into the pool at both short ends, each reaching the full depth of 2.4 metres in a series of low risers. Their careful, even finish shows the builders' skill with baked brick.",
+      "didYouKnow": "Some archaeologists think wooden treads may once have covered the brick steps, but this is uncertain."
+    },
+    "hotspot_pool": {
+      "title": "The Great Bath",
+      "text": "This sunken pool, about 12 by 7 metres, is the centrepiece of the citadel. Many scholars suggest it was used for ritual bathing, though this is an interpretation and not a certainty.",
+      "didYouKnow": "A large corbelled drain in one corner carried water out of the pool and into the city's drainage system."
+    },
+    "hotspot_bitumen": {
+      "title": "The bitumen lining",
+      "text": "The pool's brick floor and walls were made watertight with a layer of natural bitumen sealed between fine-fitted bricks. The dark lining is still visible in places today.",
+      "didYouKnow": "Bitumen is a natural tar. Its use here is among the earliest known examples of waterproofing in a large building."
+    },
+    "hotspot_corridors": {
+      "title": "The surrounding corridors",
+      "text": "Covered galleries ringed the pool, giving shade and privacy. Rooms and a staircase hint at additional spaces around the bath.",
+      "didYouKnow": "Wooden beams, now decayed, probably supported the roof, so our reconstruction here is partly educated guesswork."
+    },
+    "hotspot_granary": {
+      "title": "The 'Granary' platform",
+      "text": "A massive brick base is divided by narrow channels, which could have allowed air to circulate. It is traditionally called a granary, but scholars disagree about whether it really held grain.",
+      "didYouKnow": "Little evidence of stored grain has been found, which is one reason the name is debated."
+    }
+  },
+  "comingSoon": {
+    "townPlanning": { "title": "Town Planning and Houses", "text": "Coming soon." },
+    "drainage": { "title": "The Drainage and Water System", "text": "Coming soon." },
+    "market": { "title": "Marketplace, Trade and Crafts", "text": "Coming soon." },
+    "dock": { "title": "The River, the Dockyard and Dusk", "text": "Coming soon." }
+  }
+}
