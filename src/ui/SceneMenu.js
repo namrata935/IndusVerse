@@ -10,7 +10,7 @@ export class SceneMenu {
     this.closeBtn = el('button', { class: 'btn close-menu', onclick: () => this.hide() }, 'Keep exploring the street');
     this.node = el('section', { id: 'menu', 'aria-label': 'Scene selection' },
       el('h2', {}, 'Choose a place to explore'),
-      el('p', { class: 'sub' }, 'Five places in the great city of Mohenjo-daro. Pick one to step inside.'),
+      el('p', { class: 'sub' }, `${Object.keys(menuData).length} places in the great city of Mohenjo-daro. Pick one to step inside.`),
       this.cardsEl, this.closeBtn);
     root.append(this.node);
     Object.keys(menuData).forEach((id, i) => {

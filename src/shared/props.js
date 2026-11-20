@@ -180,17 +180,18 @@ export function createBanner({ uTime, colors = PALETTE.cloth, w = 1.2, h = 2.2, 
   return g;
 }
 
-export function createAwning({ uTime, w = 4, d = 2.5, colors = [0xc23b22, 0xd9a23a, 0x1fa6a0, 0x2d2f6b] }) {
+export function createAwning({ uTime, w = 4, d = 2.5, colors = [0xc23b22, 0xd9a23a, 0x1fa6a0, 0x2d2f6b], tilt = 0.18 }) {
   const g = new THREE.Group();
   const tex = getClothTexture(colors).map;
   const mat = new THREE.MeshStandardMaterial({ map: tex, side: THREE.DoubleSide, roughness: 0.95 });
   useWind(mat, uTime, { amp: 0.06, speed: 1.8, mode: 'uvx' });
-  const geo = new THREE.PlaneGeometry(w, d, 12, 6); geo.rotateX(-Math.PI / 2 + 0.18);
+  const geo = new THREE.PlaneGeometry(w, d, 12, 6); geo.rotateX(-Math.PI / 2 + tilt);
   const sheet = shadowed(new THREE.Mesh(geo, mat), true, true);
   sheet.position.set(0, 2.6, 0);
   g.add(sheet);
   const wood = makeFlat(0x5a3a26);
-  for (const [px, pz, ph] of [[-w / 2, -d / 2, 2.7], [w / 2, -d / 2, 2.7], [-w / 2, d / 2, 2.3], [w / 2, d / 2, 2.3]]) {
+  const rise = (d / 2) * Math.sin(tilt) + 0.1;
+  for (const [px, pz, ph] of [[-w / 2, -d / 2, 2.6 + rise], [w / 2, -d / 2, 2.6 + rise], [-w / 2, d / 2, 2.6 - rise], [w / 2, d / 2, 2.6 - rise]]) {
     const p = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.06, ph, 5), wood)); p.position.set(px, ph / 2, pz); g.add(p);
   }
   return g;

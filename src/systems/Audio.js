@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { MarketAudio } from './MarketAudio.js';
+import { WorkshopAudio } from './WorkshopAudio.js';
 
 /**
  * Fully synthesised ambience (no audio files): filtered-noise wind with slow gusts, burbling
@@ -9,8 +11,10 @@ export class AudioSystem {
   constructor() {
     this.ctx = null;
     this.muted = (() => { try { return localStorage.getItem('indusverse.muted') === '1'; } catch { return false; } })();
-    this.levels = { wind: 0, water: 0, birds: 0, crackle: 0 };
-    this.target = { wind: 0, water: 0, birds: 0, crackle: 0 };
+    this.levels = { wind: 0, water: 0, birds: 0, crackle: 0, market: 0, workshop: 0 };
+    this.target = { wind: 0, water: 0, birds: 0, crackle: 0, market: 0, workshop: 0 };
+    this.workshop = null; this.workshopSource = null; // WorkshopAudio layer for the artisan workshop
+    this.market = null; this.marketSource = null; // MarketAudio layer, fed live positions by the market scene
     this.waterPos = null;
     this.nextChirp = 2;
     this._fwd = new THREE.Vector3();
@@ -111,6 +115,16 @@ export class AudioSystem {
       L.upX.value = 0; L.upY.value = 1; L.upZ.value = 0;
     }
     if (this.waterPos) this.panner.positionX.value = this.waterPos.x, this.panner.positionY.value = this.waterPos.y, this.panner.positionZ.value = this.waterPos.z;
+    if (this.target.market > 0 && !this.market && this.marketSource) this.market = new MarketAudio(this);
+    if (this.market) {
+      this.market.update(dt, camera, this.levels.market);
+      if (this.target.market === 0 && this.levels.market < 0.01) { this.market.dispose(); this.market = null; }
+    }
+    if (this.target.workshop > 0 && !this.workshop && this.workshopSource) this.workshop = new WorkshopAudio(this);
+    if (this.workshop) {
+      this.workshop.update(dt, camera, this.levels.workshop);
+      if (this.target.workshop === 0 && this.levels.workshop < 0.01) { this.workshop.dispose(); this.workshop = null; }
+    }
     this.nextChirp -= dt;
     if (this.nextChirp <= 0) {
       this.nextChirp = 1.5 + Math.random() * 5;

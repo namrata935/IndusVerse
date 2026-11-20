@@ -19,6 +19,7 @@ import { TownPlanningScene } from './scenes/TownPlanningScene.js';
 import { DrainageScene } from './scenes/DrainageScene.js';
 import { MarketScene } from './scenes/MarketScene.js';
 import { DockScene } from './scenes/DockScene.js';
+import { WorkshopScene } from './scenes/WorkshopScene.js';
 
 // ---------------------------------------------------------------- renderer
 const host = document.getElementById('canvas-host');
@@ -95,7 +96,7 @@ function setQuality(k) {
 }
 
 // ---------------------------------------------------------------- scenes
-[EntryScene, GreatBathScene, TownPlanningScene, DrainageScene, MarketScene, DockScene].forEach((S) => manager.register(S));
+[EntryScene, GreatBathScene, TownPlanningScene, DrainageScene, MarketScene, DockScene, WorkshopScene].forEach((S) => manager.register(S));
 
 // ---------------------------------------------------------------- input glue
 const ndc = new THREE.Vector2();
@@ -139,7 +140,7 @@ function frame() {
     camera.getWorldDirection(_dir);
     minimap.update(dt, camera, Math.atan2(-_dir.x, -_dir.z));
   }
-  app.post.render();
+  if (!app.paused) app.post.render(); // a scene can pause the 3D view while a full-screen activity is open
 }
 app.post.setQuality(qualityKey);
 renderer.setAnimationLoop(frame);

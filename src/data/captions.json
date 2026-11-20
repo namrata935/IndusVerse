@@ -10,7 +10,7 @@
       "title": "Town Planning and Houses",
       "description": "Walk the grid of streets and step inside the courtyard homes of the lower town.",
       "accent": "#c4512c",
-      "available": false
+      "available": true
     },
     "drainage": {
       "title": "The Drainage and Water System",
@@ -22,13 +22,19 @@
       "title": "Marketplace, Trade and Crafts",
       "description": "Meet potters, bead-makers and traders whose goods travelled across continents.",
       "accent": "#d9a23a",
-      "available": false
+      "available": true
     },
     "dock": {
       "title": "The River, the Dockyard and Dusk",
       "description": "Watch boats on the Indus as lamps are lit across the city at nightfall.",
       "accent": "#9d2235",
       "available": false
+    },
+    "workshop": {
+      "title": "Harappan Artisan Workshop",
+      "description": "Step into the world of ancient Harappan craftsmanship. Create pottery, design seals and discover the bronze-casting techniques of the Indus Valley Civilization.",
+      "accent": "#c4512c",
+      "available": true
     }
   },
   "ui": {
@@ -50,11 +56,26 @@
     "hint": {
       "text": "Walk with W A S D and look by dragging the mouse. Glowing signposts mark the five places you can explore."
     },
-    "portal_greatBath": { "title": "The Great Bath and the Citadel", "text": "A raised citadel with a sunken brick pool." },
-    "portal_townPlanning": { "title": "Town Planning and Houses", "text": "Streets laid out on a grid." },
-    "portal_drainage": { "title": "The Drainage and Water System", "text": "Covered drains and wells." },
-    "portal_market": { "title": "Marketplace, Trade and Crafts", "text": "Potters, bead-makers and traders." },
-    "portal_dock": { "title": "The River, the Dockyard and Dusk", "text": "Boats on the river as night falls." }
+    "portal_greatBath": {
+      "title": "The Great Bath and the Citadel",
+      "text": "A raised citadel with a sunken brick pool."
+    },
+    "portal_townPlanning": {
+      "title": "Town Planning and Houses",
+      "text": "Streets laid out on a grid."
+    },
+    "portal_drainage": {
+      "title": "The Drainage and Water System",
+      "text": "Covered drains and wells."
+    },
+    "portal_market": {
+      "title": "Marketplace, Trade and Crafts",
+      "text": "Potters, bead-makers and traders."
+    },
+    "portal_dock": {
+      "title": "The River, the Dockyard and Dusk",
+      "text": "Boats on the river as night falls."
+    }
   },
   "greatBath": {
     "enter": {
@@ -111,10 +132,103 @@
       "didYouKnow": "Little evidence of stored grain has been found, which is one reason the name is debated."
     }
   },
+  "market": {
+    "enter": {
+      "title": "Merchant",
+      "text": "Welcome, traveller! I'm Ravi, and this is our great bazaar. Wander down the street and see how we trade pots, beads, grain, cloth and copper. Step up to a glowing marker and the traders will happily tell you all about their work.",
+      "didYouKnow": "This street is a reconstruction. No market has been clearly identified at Mohenjo-daro, so the layout is imagined from the crafts and goods archaeologists have found."
+    },
+    "tour_street": {
+      "title": "Merchant",
+      "text": "Come along, I'll show you around! Our shops stand shoulder to shoulder, built of baked brick with flat roofs. The awnings keep the sun off the goods."
+    },
+    "tour_pottery": {
+      "title": "Potter",
+      "text": "Come closer, friend! I'm Dhruv, and clay is my whole life. I throw every pot on the wheel and fire it in the kiln. Many are painted red and black, with patterns of fish scales and leaves.",
+      "didYouKnow": "Tiny toy carts and animals made of clay have also been found, so potters probably made playthings too."
+    },
+    "tour_beads": {
+      "title": "Bead-maker",
+      "text": "Oh, a visitor! I'm Samar, the bead-maker, and these are my little treasures. Carnelian, lapis lazuli, shell and faience, all cut, ground and drilled by hand. People wear them as necklaces and bangles.",
+      "didYouKnow": "Some Indus beads are only a couple of millimetres wide, yet have a hole drilled all the way through."
+    },
+    "tour_grain": {
+      "title": "Grain merchant",
+      "text": "Good day to you! Tarun here, the grain merchant. Wheat and barley, fresh from the fields. I measure it out from these baskets, because a city this size needs a lot of grain.",
+      "didYouKnow": "Remains of wheat, barley, peas and sesame have been found at Indus sites."
+    },
+    "tour_textile": {
+      "title": "Cloth seller",
+      "text": "Do come and feel this! I'm Lakshmi, and I sell cloth. It's soft cotton, and some of it is dyed red with madder root. I sell it by the length.",
+      "didYouKnow": "Some of the earliest evidence for cotton cloth in the world comes from the Indus Valley."
+    },
+    "tour_weights": {
+      "title": "Trader with scales",
+      "text": "Step right up! I'm Vihan, and I keep the scales honest. Our stone cubes come in a regular set of sizes. So a trader here and a trader far away can agree on a price.",
+      "didYouKnow": "Weights found across a huge area follow the same system, a sign of shared standards."
+    },
+    "tour_kiln": {
+      "title": "Potter at the kiln",
+      "text": "Mind the fire, friend! I'm Kaveri, the potter who tends this kiln. The fire burns below and the pots are stacked above. We build kilns at the edge of town because of all the smoke.",
+      "didYouKnow": "Brick kilns like this could reach very high temperatures."
+    },
+    "hotspot_pottery": {
+      "title": "Potter",
+      "text": "Come closer, friend! I'm Dhruv, and clay is my whole life. I throw every pot on the wheel and fire it in the kiln. Many are painted red and black, with patterns of fish scales and leaves.",
+      "didYouKnow": "Tiny toy carts and animals made of clay have also been found, so potters probably made playthings too."
+    },
+    "hotspot_beads": {
+      "title": "Bead-maker",
+      "text": "Oh, a visitor! I'm Samar, the bead-maker, and these are my little treasures. Carnelian, lapis lazuli, shell and faience, all cut, ground and drilled by hand. People wear them as necklaces and bangles.",
+      "didYouKnow": "Some Indus beads are only a couple of millimetres wide, yet have a hole drilled all the way through."
+    },
+    "hotspot_grain": {
+      "title": "Grain merchant",
+      "text": "Good day to you! Tarun here, the grain merchant. Wheat and barley, fresh from the fields. I measure it out from these baskets, because a city this size needs a lot of grain.",
+      "didYouKnow": "Remains of wheat, barley, peas and sesame have been found at Indus sites."
+    },
+    "hotspot_textile": {
+      "title": "Cloth seller",
+      "text": "Do come and feel this! I'm Lakshmi, and I sell cloth. It's soft cotton, and some of it is dyed red with madder root. I sell it by the length.",
+      "didYouKnow": "Some of the earliest evidence for cotton cloth in the world comes from the Indus Valley."
+    },
+    "hotspot_seals": {
+      "title": "Trader",
+      "text": "Ah, you have a keen eye! I'm Ishaan, and I trade in little seals. They're carved from soft steatite with an animal and a line of signs. Press one into clay to mark your goods as yours. Nobody today can read the signs!",
+      "didYouKnow": "The Indus script has not yet been deciphered."
+    },
+    "hotspot_weights": {
+      "title": "Trader with scales",
+      "text": "Step right up! I'm Vihan, and I keep the scales honest. Our stone cubes come in a regular set of sizes. So a trader here and a trader far away can agree on a price.",
+      "didYouKnow": "Weights found across a huge area follow the same system, a sign of shared standards."
+    },
+    "hotspot_kiln": {
+      "title": "Potter at the kiln",
+      "text": "Mind the fire, friend! I'm Kaveri, the potter who tends this kiln. The fire burns below and the pots are stacked above. We build kilns at the edge of town because of all the smoke.",
+      "didYouKnow": "Brick kilns like this could reach very high temperatures."
+    },
+    "hotspot_carts": {
+      "title": "Cart driver",
+      "text": "Easy now, my oxen! I'm Gopal, and I drive this cart. We carry grain, pots, stone and metal along the roads. Boats carry our goods too, and traders take them as far as Mesopotamia.",
+      "didYouKnow": "Clay models of carts with solid wheels look very like carts still used in South Asia today."
+    }
+  },
   "comingSoon": {
-    "townPlanning": { "title": "Town Planning and Houses", "text": "Coming soon." },
-    "drainage": { "title": "The Drainage and Water System", "text": "Coming soon." },
-    "market": { "title": "Marketplace, Trade and Crafts", "text": "Coming soon." },
-    "dock": { "title": "The River, the Dockyard and Dusk", "text": "Coming soon." }
+    "townPlanning": {
+      "title": "Town Planning and Houses",
+      "text": "Coming soon."
+    },
+    "drainage": {
+      "title": "The Drainage and Water System",
+      "text": "Coming soon."
+    },
+    "dock": {
+      "title": "The River, the Dockyard and Dusk",
+      "text": "Coming soon."
+    },
+    "workshop": {
+      "title": "Harappan Artisan Workshop",
+      "text": "Craft with the artisans."
+    }
   }
 }
