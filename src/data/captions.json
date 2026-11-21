@@ -12,12 +12,6 @@
       "accent": "#c4512c",
       "available": true
     },
-    "drainage": {
-      "title": "The Drainage and Water System",
-      "description": "Follow covered brick drains and wells that kept a 4,500-year-old city clean.",
-      "accent": "#26619c",
-      "available": false
-    },
     "market": {
       "title": "Marketplace, Trade and Crafts",
       "description": "Meet potters, bead-makers and traders whose goods travelled across continents.",
@@ -26,9 +20,9 @@
     },
     "dock": {
       "title": "The River, the Dockyard and Dusk",
-      "description": "Watch boats on the Indus as lamps are lit across the city at nightfall.",
+      "description": "Explore a riverside trading area: load a boat, weigh goods, study the trade map, sail the river and watch dusk fall.",
       "accent": "#9d2235",
-      "available": false
+      "available": true
     },
     "workshop": {
       "title": "Harappan Artisan Workshop",

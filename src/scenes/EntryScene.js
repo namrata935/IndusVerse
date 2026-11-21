@@ -17,9 +17,8 @@ import { loadModel } from '../shared/models.js';
 const PORTALS = [
   { id: 'greatBath', color: 0x1fa6a0, z: -6, side: -1 },
   { id: 'townPlanning', color: 0xe0612f, z: -18, side: 1 },
-  { id: 'drainage', color: 0x3b82d0, z: -32, side: -1 },
-  { id: 'market', color: 0xe8b13c, z: -46, side: 1 },
-  { id: 'dock', color: 0xc42a45, z: -60, side: -1 },
+  { id: 'market', color: 0xe8b13c, z: -32, side: 1 },
+  { id: 'dock', color: 0xc42a45, z: -46, side: -1 },
 ];
 
 /**

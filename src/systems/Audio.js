@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { MarketAudio } from './MarketAudio.js';
 import { WorkshopAudio } from './WorkshopAudio.js';
+import { DockAudio } from './DockAudio.js';
 
 /**
  * Fully synthesised ambience (no audio files): filtered-noise wind with slow gusts, burbling
@@ -11,8 +12,9 @@ export class AudioSystem {
   constructor() {
     this.ctx = null;
     this.muted = (() => { try { return localStorage.getItem('indusverse.muted') === '1'; } catch { return false; } })();
-    this.levels = { wind: 0, water: 0, birds: 0, crackle: 0, market: 0, workshop: 0 };
-    this.target = { wind: 0, water: 0, birds: 0, crackle: 0, market: 0, workshop: 0 };
+    this.levels = { wind: 0, water: 0, birds: 0, crackle: 0, market: 0, workshop: 0, dock: 0 };
+    this.target = { wind: 0, water: 0, birds: 0, crackle: 0, market: 0, workshop: 0, dock: 0 };
+    this.dock = null; this.dockSource = null; // DockAudio layer for the riverside scene
     this.workshop = null; this.workshopSource = null; // WorkshopAudio layer for the artisan workshop
     this.market = null; this.marketSource = null; // MarketAudio layer, fed live positions by the market scene
     this.waterPos = null;
@@ -124,6 +126,11 @@ export class AudioSystem {
     if (this.workshop) {
       this.workshop.update(dt, camera, this.levels.workshop);
       if (this.target.workshop === 0 && this.levels.workshop < 0.01) { this.workshop.dispose(); this.workshop = null; }
+    }
+    if (this.target.dock > 0 && !this.dock && this.dockSource) this.dock = new DockAudio(this);
+    if (this.dock) {
+      this.dock.update(dt, camera, this.levels.dock);
+      if (this.target.dock === 0 && this.levels.dock < 0.01) { this.dock.dispose(); this.dock = null; }
     }
     this.nextChirp -= dt;
     if (this.nextChirp <= 0) {

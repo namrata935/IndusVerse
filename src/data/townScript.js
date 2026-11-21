@@ -3,9 +3,7 @@ export const GUIDE = 'Veda the city guide';
 
 export const SCRIPT = {
   welcome: [
-    'Welcome to Mohenjo-daro!',
-    'Our city is carefully planned, with streets, houses, wells and drainage systems arranged in an organised manner.',
-    'Let me show you how our city is designed and how our people live.',
+    'Welcome to Mohenjo-daro! Our city is carefully planned, with straight streets, houses, wells and drains.',
   ],
   menuQuestion: 'Where would you like to begin?',
   menu: { tour: 'Show me around the city', house: 'Take me inside a Harappan house', overview: 'Citadel vs Lower Town', free: 'I will explore on my own' },
@@ -13,13 +11,10 @@ export const SCRIPT = {
   tourNext: 'Shall we go on?',
   tourChoices: { next: 'Yes, continue the tour', stop: 'Let me explore for now' },
   houseIntro: [
-    'Let us take a look inside a typical Harappan home.',
-    'Our houses are designed around everyday needs, with spaces for household activities and privacy.',
-    'Come in through the doorway. I will wait for you in the courtyard.',
+    'Let us look inside a typical Harappan home. Come in through the doorway, and I will meet you inside.',
   ],
   overviewIntro: [
-    'Mohenjo-daro is often described as having two major parts: an elevated western mound known as the Citadel and a larger Lower Town.',
-    'Let us explore how these areas differ.',
+    'Mohenjo-daro is often described as having two parts: a raised western mound, the Citadel, and a larger Lower Town. Let us see how they differ.',
   ],
   farewell: 'Come and find me whenever you would like to hear more. Enjoy exploring!',
 };

@@ -18,19 +18,19 @@ export const btn = (label, onclick, cls = '') => el('button', { class: 'ws-btn '
  * and a side column with the artisan's words and the controls for the current step.
  */
 export class ActivityShell {
-  constructor(root, { title, artisanName = 'Dhanya the artisan', onClose }) {
+  constructor(root, { title, artisanName = 'Dhanya the artisan', avatar = '🏺', backLabel = '‹ Back to the workshop', onClose }) {
     this.onClose = onClose;
     this.main = el('div', { class: 'ws-main' });
     this.say = el('p', { class: 'ws-say' });
     this.note = el('div', { class: 'ws-note' });
     this.controls = el('div', { class: 'ws-controls' });
     this.side = el('aside', { class: 'ws-side' },
-      el('div', { class: 'ws-artisan' }, el('div', { class: 'ws-avatar' }, '🏺'), el('b', {}, artisanName)),
+      el('div', { class: 'ws-artisan' }, el('div', { class: 'ws-avatar' }, avatar), el('b', {}, artisanName)),
       this.say, this.note, this.controls);
     this.title = el('h2', {}, title);
     this.node = el('div', { class: 'ws-overlay' },
       el('div', { class: 'ws-panel' },
-        el('header', {}, this.title, el('button', { class: 'ws-back', onclick: () => this.close(false) }, '‹ Back to the workshop')),
+        el('header', {}, this.title, el('button', { class: 'ws-back', onclick: () => this.close(false) }, backLabel)),
         el('div', { class: 'ws-body' }, this.main, this.side)));
     root.append(this.node);
     requestAnimationFrame(() => this.node.classList.add('show'));

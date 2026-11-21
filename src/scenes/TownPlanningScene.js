@@ -9,6 +9,7 @@ import { makeBrickMaterial } from '../shared/materials.js';
 import { createTrees, createPots, createLamp, createBirds, createDust, createBanner, makeGlowSprite } from '../shared/props.js';
 import { randomPerson, Walker } from '../shared/people.js';
 import { el } from '../ui/dom.js';
+import { makeLabel } from '../shared/labels.js';
 import { DialogueBox } from '../ui/DialogueBox.js';
 import { CityOverview } from '../ui/CityOverview.js';
 import { Artisan } from '../workshop/Artisan.js';
@@ -23,6 +24,19 @@ const DOOR_Z = 43;
 const CIT = { x0: -150, x1: -95, z0: -35, z1: 35, top: 7 };       // the raised western mound
 const POOL = { x0: -131, x1: -119, z0: -4, z1: 4, floor: 4.6 };
 const nearest = (arr, v) => arr.reduce((a, b) => (Math.abs(b - v) < Math.abs(a - v) ? b : a));
+// inside the house: rooms, where the guide stands in each, and the doorway waypoints from each room to the courtyard hub
+const HUB = [13.2, 42];
+const ROOMS = {
+  hall: { stand: [8.5, 41.8], toHub: [[9, 43], [12, 43]] },
+  court: { stand: HUB, toHub: [] },
+  living: { stand: [16.4, 36.4], toHub: [[15, 38.5], [15, 40], [14.2, 41.2]] },
+  kitchen: { stand: [15.6, 48.2], toHub: [[15.6, 47.5], [15, 46], [13.2, 45]] },
+  family: { stand: [20.6, 42.4], toHub: [[21, 43], [18, 43], [16.7, 43.8], [15, 44.9], [13.2, 44.2]] },
+  bath: { stand: [10.2, 48.8], toHub: [[9, 47], [9, 45], [9, 43], [12, 43]] },
+};
+const ENTER = [[3, DOOR_Z], [9, DOOR_Z], [12, DOOR_Z], HUB];
+const roomOf = (p) => (p.x < 12 ? (p.z > 46 ? 'bath' : 'hall') : p.x < 18 ? (p.z < 40 ? 'living' : p.z > 46 ? 'kitchen' : 'court') : 'family');
+const roomPath = (a, b) => (a === b ? [] : [...ROOMS[a].toHub, HUB, ...[...ROOMS[b].toHub].reverse(), ROOMS[b].stand]);
 const INSIDE_IDS = new Set(['courtyard', 'houseWell', 'rooms', 'kitchen', 'bath']);
 const inHouse = (p) => p.x > HOUSE.x0 - 0.5 && p.x < HOUSE.x1 && p.z > HOUSE.z0 && p.z < HOUSE.z1;
 
@@ -40,7 +54,7 @@ export class TownPlanningScene extends BaseScene {
     camera: { pos: [0, 1.7, 68], yaw: 0, pitch: 0.04, mode: 'walk', eye: 1.7, speed: 3.6 },
     lighting: {
       time: 10, sky: { turbidity: 3.2, rayleigh: 1.5, mie: 0.005, mieG: 0.8 }, fogDensity: 0.0026, fogTint: 0xf0dcc0,
-      shadowSize: 70, azimuthOffset: 0.4, exposure: 0.58, sunBoost: 1.0, hemiBoost: 1.5,
+      shadowSize: 70, azimuthOffset: 0.4, exposure: 0.58, sunBoost: 1.0, hemiBoost: 1.5, moon: 0.9, nightHemi: 0.7,
     },
     audio: { wind: 0.3, birds: 0.5 },
     look: { bloom: { strength: 0.25, threshold: 0.92, radius: 0.6 }, saturation: 1.15, contrast: 1.06, vignette: 0.28 },
@@ -108,7 +122,9 @@ export class TownPlanningScene extends BaseScene {
     // ============ street life & scenery ============
     this.add(createTrees([...scatter(16, [-150, 120, -140, -78], { seed: 3 }), ...scatter(14, [-110, 130, 80, 140], { seed: 4, avoid: [[-8, 8, 60, 140]] }), ...scatter(10, [96, 130, -60, 70], { seed: 5 })], { uTime: this.uTime, seed: 9 }));
     const ridge = createRidge({ width: 1400, height: 70, color: 0x9a8fb0, seed: 8 }); ridge.position.set(0, 0, -560); this.add(ridge);
-    [[-4.4, 20], [4.4, -20], [-4.4, -44], [4.4, 50], [26, 3], [-4.4, 60], [4.4, 60]].forEach(([x, z]) => this.add(createLamp({ lamps: this.lamps, x, y: 0, z, light: false })));
+    [[-4.4, 20], [4.4, -20], [-4.4, -44], [4.4, 50], [26, 3], [-4.4, 60], [4.4, 60], [4.4, 30], [-4.4, 8], [4.4, -6]].forEach(([x, z]) => this.add(createLamp({ lamps: this.lamps, x, y: 0, z, light: true })));
+    // more street lamps (glow only) along the main streets and lanes so the grid reads at night
+    for (const [x, z] of [[-64.4, 20], [-55.6, -20], [55.6, 20], [64.4, -20], [55.6, 50], [-28.4, 3], [31.6, -3], [-28.4, -40], [31.6, 40], [-30, 28.4], [30, -28.4], [60, 3], [-60, -3], [12, 3], [-12, -3], [45, 3], [-45, -3], [75, 3], [-75, -3]]) this.add(createLamp({ lamps: this.lamps, x, y: 0, z, light: false }));
     for (const [x, z, ci] of [[-4.6, 64, 0], [4.6, 64, 1], [-4.6, 2, 3], [4.6, 2, 4]]) { const b = createBanner({ uTime: this.uTime, colors: [PALETTE.cloth[ci], PALETTE.ochre, PALETTE.turquoise, PALETTE.indigo], poleH: 4.4 }); b.position.set(x, 0, z); this.add(b); }
     this.add(createPots(potsAll));
     kit.build(this.root);
@@ -118,10 +134,20 @@ export class TownPlanningScene extends BaseScene {
     const dust = createDust({ count: 260, box: 40, height: 12 }); this.add(dust.points, (dt) => dust.update(dt, this.app.camera.position, 0.7));
     this.updaters.push((dt) => walkers.forEach((w) => w.update(dt)));
     // name labels fade in as you get close, so the street is not cluttered from afar
-    this.updaters.push(() => { const cp = this.app.camera.position; for (const p of this.pois) { const d = p.lab.position.distanceTo(cp); const indoor = INSIDE_IDS.has(p.id); p.lab.visible = this.mode !== 'overview' && d < 42 && (!indoor || inHouse(cp)); p.lab.material.opacity = Math.max(0, Math.min(0.95, (42 - d) / 14)); const k = Math.max(0.28, Math.min(1.1, d / 15)); p.lab.scale.set(6 * k, 1.1 * k, 1); } });
+    this.updaters.push(() => {
+      const cp = this.app.camera.position, inside = inHouse(cp), maxD = inside ? 12 : 30;
+      for (const p of this.pois) {
+        const d = p.lab.position.distanceTo(cp), indoor = INSIDE_IDS.has(p.id);
+        const show = this.mode !== 'overview' && d < maxD && indoor === inside;      // inside: only house labels; outside: only street labels
+        p.lab.visible = show; if (p.hot) p.hot.g.visible = indoor === inside;           // markers follow the same rule
+        p.lab.material.opacity = Math.max(0, Math.min(0.95, (maxD - d) / 8));
+        const k = Math.max(0.28, Math.min(1.1, d / 15)); p.lab.scale.set(6 * k, 1.1 * k, 1);
+      }
+    });
 
     // ============ the guide ============
     this.guide = new Artisan(new THREE.Vector3(2.4, 0, 58), { heading: Math.PI, cloth: PALETTE.lapis, sash: PALETTE.ochre, band: PALETTE.carnelian, skin: PALETTE.skin[2] });
+    this.guide.speed = 3.2;
     this.add(this.guide.root, (dt, t) => this.guide.update(dt, t));
     this.guide.root.userData.dispose = () => {};
 
@@ -247,17 +273,7 @@ export class TownPlanningScene extends BaseScene {
   }
 
   // ---------------------------------------------------------------- labels, highlights, overview markers
-  makeLabel(text, color = 0xffffff) {
-    const c = document.createElement('canvas'); c.width = 512; c.height = 96; const x = c.getContext('2d');
-    let fs = 38; x.font = `700 ${fs}px Georgia, serif`; while (x.measureText(text).width > 440 && fs > 18) { fs -= 2; x.font = `700 ${fs}px Georgia, serif`; }
-    x.textAlign = 'center'; x.textBaseline = 'middle';
-    const w = Math.min(500, x.measureText(text).width + 40);
-    x.fillStyle = 'rgba(40,22,12,0.78)'; x.beginPath(); x.roundRect?.(256 - w / 2, 8, w, 80, 24); if (!x.roundRect) x.rect(256 - w / 2, 8, w, 80); x.fill();
-    x.strokeStyle = '#' + new THREE.Color(color).getHexString(); x.lineWidth = 4; x.stroke();
-    x.fillStyle = '#fff2d8'; x.fillText(text, 256, 50);
-    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
-    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true, opacity: 0.95 })); s.scale.set(6, 1.1, 1); s.renderOrder = 10; return s;
-  }
+  makeLabel(text, color = 0xffffff) { return makeLabel(text, color); }
   /** Pulsing glow over the structure being explained. */
   highlight(boxes, color = 0xffd070, secs = 7) {
     this.clearHighlight();
@@ -311,11 +327,12 @@ export class TownPlanningScene extends BaseScene {
   }
   guideTo(x, z, { into = null } = {}) {
     const g = this.guide; const path = this.streetRoute({ x: g.pos.x, z: g.pos.z }, [x, z]);
+    if (inHouse(g.pos)) path.unshift(...roomPath(roomOf(g.pos), 'hall'));       // leave through the rooms and doorways, not the walls
     if (into) path.push(...into);
     return g.walkTo(path);
   }
   playerNear(x, z, r = 9) { const c = this.app.camera.position; return Math.hypot(c.x - x, c.z - z) < r; }
-  async waitPlayerNear(x, z, r = 9, maxMs = 22000) {
+  async waitPlayerNear(x, z, r = 12, maxMs = 8000) {
     const t0 = performance.now();
     while (!this.dead && !this.playerNear(x, z, r) && performance.now() - t0 < maxMs) await wait(300);
   }
@@ -327,12 +344,18 @@ export class TownPlanningScene extends BaseScene {
     if (this.dead) return;
     const cam = this.app.camera.position;
     if (!this.started && cam.distanceTo(this.guide.pos) < 10) { this.started = true; this.welcome(); }
+    if (this.started && !this.guide.walk && this.guide.mode === 'idle' && !this.busy) this.guide.faceToward(cam);   // always turn to the visitor
     // the guide keeps the visitor company while they explore on their own
     if (this.started && !this.busy && this.mode === 'free' && !this.guide.walk && (this._follow = (this._follow ?? 0) - dt) < 0) {
       this._follow = 2.5;
       const inside = inHouse(cam), gIn = inHouse(this.guide.pos);
-      if (inside && !gIn) { this.guideTo(0, DOOR_Z, { into: [[3, DOOR_Z], [9, DOOR_Z], [12.8, 41.4]] }); }
-      else if (!inside) {
+      if (inside && !gIn) { this.guideTo(0, DOOR_Z, { into: ENTER }); }
+      else if (inside) {
+        // keep the visitor company: move to whichever room they are in (the courtyard while they are in the entry hall)
+        this._follow = 0.8;
+        const want = roomOf(cam) === 'hall' ? 'court' : roomOf(cam), have = roomOf(this.guide.pos);
+        if (want !== have) this.guide.walkTo(roomPath(have, want));
+      } else if (!inside) {
         const tgt = [nearest(XL, cam.x) === 0 && Math.abs(cam.x) < 8 ? 0 : (Math.abs(cam.x - nearest(XL, cam.x)) < 6 ? nearest(XL, cam.x) : cam.x), cam.z];
         if (cam.x < -62) return;
         if (Math.hypot(this.guide.pos.x - cam.x, this.guide.pos.z - cam.z) > 16 || gIn) { const p = Math.abs(cam.x - nearest(XL, cam.x)) <= Math.abs(cam.z - nearest(ZL, cam.z)) ? [nearest(XL, cam.x), cam.z] : [cam.x, nearest(ZL, cam.z)]; this.guideTo(Math.max(-60, Math.min(90, p[0] + 2.5)), Math.max(-58, Math.min(58, p[1] + 3)), {}); }
@@ -342,7 +365,7 @@ export class TownPlanningScene extends BaseScene {
   }
   async welcome() {
     this.setObjective(''); this.lock(true); this.busy = true;
-    const g = this.guide; g.faceToward(this.app.camera.position); await wait(400); g.setMode('wave'); await wait(1500); g.setMode('talk');
+    const g = this.guide; g.faceToward(this.app.camera.position); await wait(300); g.setMode('wave'); await wait(900); g.setMode('talk');
     await this.sayAll(SCRIPT.welcome); g.setMode('idle');
     this.busy = false; await this.guideMenu(true);
   }
@@ -368,14 +391,14 @@ export class TownPlanningScene extends BaseScene {
       if (this.dead || this.mode !== 'tour') return;
       const poi = this.pois.find((p) => p.id === id), [sx, sz] = poi.stand;
       this.setObjective('Follow the guide'); this.guide.setMode('idle');
-      await this.guideTo(sx, sz); await this.waitPlayerNear(sx, sz, 9);
+      await this.guideTo(sx, sz); await this.waitPlayerNear(sx, sz, 14);
       if (this.mode !== 'tour') return;
       this.setObjective(''); this.lock(true);
       const d = POIS[id]; this.highlight(poi.hl, poi.color, 12);
       this.guide.point(new THREE.Vector3(...(id === 'drains' ? [3.7, 0, sz] : id === 'houses' ? [-15, 0, 12] : id === 'streetWell' ? [37.5, 0, 8.5] : [sx, 0, sz - 12])));
       this.app.ui.panel.show({ title: d.title, text: d.text, didYouKnow: d.guide }, '#' + new THREE.Color(poi.color).getHexString());
-      await wait(500); await this.say(d.text, 'Continue ›'); this.guide.faceToward(this.app.camera.position); this.guide.setMode('talk');
-      await this.say(d.guide, id === 'drains' ? 'Done ›' : 'Continue ›'); this.guide.setMode('idle'); this.dlg.hide(); this.lock(false);
+      this.guide.faceToward(this.app.camera.position); this.guide.setMode('talk');
+      await this.say(d.text, id === 'drains' ? 'Done ›' : 'Next stop ›'); this.guide.setMode('idle'); this.dlg.hide(); this.lock(false);
     }
     this.clearHighlight(); this.app.ui.panel.hide(); this.mode = 'free';
     this.busy = false; this.guide.faceToward(this.app.camera.position);
@@ -387,7 +410,7 @@ export class TownPlanningScene extends BaseScene {
   async houseTour() {
     this.busy = true; this.mode = 'tour'; this.hotspots.setEnabled(false); this.lock(false); this.app.ui.panel.hide(); this.clearHighlight();
     if (!inHouse(this.app.camera.position)) {
-      this.setObjective('Follow the guide to the house'); await this.guideTo(0, DOOR_Z); await this.waitPlayerNear(2.5, DOOR_Z, 9);
+      this.setObjective('Follow the guide to the house'); await this.guideTo(0, DOOR_Z); await this.waitPlayerNear(2.5, DOOR_Z, 14);
     }
     this.setObjective(''); this.lock(true);
     const poi = this.pois.find((p) => p.id === 'houseDoor'); this.highlight(poi.hl, poi.color, 10);
@@ -396,7 +419,7 @@ export class TownPlanningScene extends BaseScene {
     this.houseIntroDone = true; this.dlg.hide(); this.lock(false); this.guide.setMode('idle');
     this.setObjective('Walk through the doorway and explore the house');
     this.mode = 'free'; this.busy = false; this.hotspots.setEnabled(true);
-    await this.guideTo(0, DOOR_Z, { into: [[3, DOOR_Z], [9, DOOR_Z], [12.8, 41.4]] });
+    await this.guideTo(0, DOOR_Z, { into: ENTER });
     this.guide.faceToward(this.app.camera.position);
     setTimeout(() => !this.busy && this.setObjective(''), 9000);
   }

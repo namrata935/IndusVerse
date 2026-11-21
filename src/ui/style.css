@@ -196,3 +196,62 @@ kbd { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25)
 .ov-foot { font-size: 11.5px !important; color: #8a6a44; margin-bottom: 12px !important; }
 .ov-close { width: 100%; }
 @media (max-width: 720px) { #overview { top: auto; bottom: 10px; max-height: 55vh; } }
+
+/* ---------------------------------------------------------------- River, Dockyard & Dusk activities */
+.dk-cargo, .dk-weigh, .dk-mapwrap { user-select: none; -webkit-user-select: none; }
+.dk-cargo { width: 100%; height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.dk-water { flex: 1; min-height: 0; height: 0; display: grid; place-items: center; background: linear-gradient(#9fd3d6, #3f9aa3); position: relative; overflow: hidden; }
+.dk-boat { position: relative; height: 92%; width: auto; max-width: 92%; aspect-ratio: 1.15; background: #9a6a42; clip-path: polygon(14% 100%, 86% 100%, 100% 55%, 82% 18%, 50% 0, 18% 18%, 0 55%); display: grid; place-items: center; box-shadow: inset 0 0 0 6px #7a4a2a; }
+.dk-hold { width: 66%; height: 70%; margin-top: 12%; background: #3b2616; border-radius: 40% 40% 14% 14%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 8px; padding: 12px 14px; }
+.dk-bow { position: absolute; top: 4%; left: 50%; transform: translateX(-50%); font: 700 11px var(--sans, system-ui); color: #f5d9a0; letter-spacing: .08em; }
+.dk-slot { border: 2px dashed rgba(255,225,160,.55); border-radius: 10px; display: grid; place-items: center; font-size: clamp(24px, 4.4vh, 40px); color: rgba(255,255,255,.35); transition: background .15s, border-color .15s, transform .15s; }
+.dk-slot.want { border-color: #ffe08a; background: rgba(255,224,138,.22); animation: dkpulse 1s ease-in-out infinite; color: rgba(255,255,255,.75); }
+.dk-slot.full { border-style: solid; border-color: #6fcf8a; background: rgba(80,160,100,.3); color: #fff; }
+.dk-slot.good { transform: scale(1.12); } .dk-slot.bad { animation: dkshake .4s; border-color: #ff7a6a; }
+@keyframes dkpulse { 50% { background: rgba(255,224,138,.4); } }
+@keyframes dkshake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.dk-tray { flex: none; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 12px; background: #e9cf9c; border-top: 3px solid #b8884a; }
+.dk-item { width: 94px; padding: 8px 4px 6px; background: #fff6e2; border: 2px solid #b8884a; border-radius: 12px; text-align: center; cursor: grab; user-select: none; touch-action: none; transition: transform .12s, opacity .2s; }
+.dk-item:hover { transform: translateY(-3px); } .dk-item.sel { border-color: #c4512c; box-shadow: 0 0 0 3px rgba(196,81,44,.35); }
+.dk-item.lift { opacity: .35; } .dk-item.gone { opacity: 0; pointer-events: none; transform: scale(.6); }
+.dk-item .dk-ico { display: block; font-size: 34px; line-height: 1.2; } .dk-item small { display: block; font: 600 11px var(--sans, system-ui); color: #5a2a14; }
+.dk-ghost { position: fixed; z-index: 200; font-size: 46px; transform: translate(-50%, -50%); pointer-events: none; filter: drop-shadow(0 6px 6px rgba(0,0,0,.4)); }
+.dk-weigh { width: 100%; height: 100%; display: flex; flex-direction: column; }
+.dk-stage { position: relative; flex: 1; min-height: 300px; background: linear-gradient(#f6e6c4, #e2c690); overflow: hidden; }
+.dk-post { position: absolute; left: 50%; top: 78px; width: 14px; height: calc(100% - 126px); transform: translateX(-50%); background: #7a4a2a; border-radius: 4px; }
+.dk-base { position: absolute; left: 50%; bottom: 24px; width: 200px; height: 22px; transform: translateX(-50%); background: #5e3a22; border-radius: 8px; }
+.dk-beam { position: absolute; left: 50%; top: 73px; width: 440px; max-width: 86%; height: 10px; background: #8a5a30; border-radius: 6px; transform-origin: 50% 50%; transition: transform .7s cubic-bezier(.3,1.4,.5,1); }
+.dk-pan { position: absolute; width: 150px; transform: translateX(-50%); transition: left .7s cubic-bezier(.3,1.4,.5,1), top .7s cubic-bezier(.3,1.4,.5,1); }
+.dk-string { height: 70px; width: 100%; background: linear-gradient(to right, transparent 49%, #6a4a2a 49% 51%, transparent 51%); clip-path: polygon(50% 0, 100% 100%, 0 100%); background-color: rgba(106,74,42,.18); }
+.dk-tray2 { min-height: 56px; border-radius: 0 0 50% 50% / 0 0 100% 100%; background: #c4985a; border-top: 5px solid #8a5a30; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 4px; padding: 4px 8px 12px; }
+.dk-big { font-size: 40px; line-height: 1; } .dk-tray2 small { width: 100%; text-align: center; font: 700 11px var(--sans, system-ui); color: #3a2414; }
+.dk-verdict { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); padding: 6px 16px; border-radius: 999px; background: rgba(58,36,20,.85); color: #ffe6bf; font: 700 14px var(--sans, system-ui); z-index: 3; }
+.dk-stage.ok .dk-verdict { background: #2f8f4e; color: #fff; } .dk-stage.ok .dk-beam { background: #4aa564; }
+.dk-shelf { padding: 10px 14px; background: #e9cf9c; border-top: 3px solid #b8884a; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.dk-shelf label, .dk-learn label { font: 700 11px var(--sans, system-ui); letter-spacing: .08em; text-transform: uppercase; color: #8a5a30; }
+.dk-weights { display: flex; gap: 8px; flex-wrap: wrap; }
+.dk-w { width: 54px; height: 54px; border-radius: 8px; border: 2px solid #8a8a8a; background: linear-gradient(145deg, #e8e4da, #bdb6a6); color: #2a2a2a; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: inherit; transition: transform .1s; }
+.dk-w:hover { transform: translateY(-2px); } .dk-w b { font-size: 18px; line-height: 1; } .dk-w small { font-size: 9px; }
+.dk-w.small { width: 30px; height: 30px; font: 800 13px var(--sans, system-ui); }
+.dk-learn { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.dk-info { background: #fff; border: 2px solid #e7cfa8; border-radius: 12px; padding: 10px 12px; font-size: 13.5px; line-height: 1.5; } .dk-info p { margin: 4px 0 0; }
+.dk-caveat { margin: 0; font-size: 12px; line-height: 1.45; color: #6a4a28; border-top: 1px dashed #d9b98a; padding-top: 8px; }
+.dk-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.dk-mapwrap { position: relative; width: 100%; height: 100%; background: #223; }
+.dk-mapview { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; outline: none; user-select: none; } .dk-mapview.grab { cursor: grabbing; }
+.dk-mapimg { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; image-rendering: auto; pointer-events: none; }
+.dk-zoombar { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 6px; align-items: center; background: rgba(40,22,12,.7); padding: 6px 8px; border-radius: 999px; }
+.dk-zoomlbl { color: #ffe6bf; font: 700 12px var(--sans, system-ui); min-width: 42px; text-align: center; }
+#journey-ui { position: fixed; left: 50%; top: 74px; transform: translateX(-50%); width: min(760px, calc(100vw - 32px)); z-index: 30; display: none; gap: 10px; align-items: flex-start; }
+#journey-ui.show { display: flex; }
+#journey-ui .cap { flex: 1; background: rgba(255,246,226,.96); color: #3a2414; border-radius: 14px; padding: 12px 16px; font-size: 16px; line-height: 1.5; border: 2px solid #c4512c; min-height: 56px; }
+#dock-btn { position: fixed; right: 16px; bottom: 20px; z-index: 20; }
+@media (max-width: 900px) { .ws-side { width: 300px; } .dk-item { width: 78px; } }
+
+.dk-zoombar .ws-btn.icon { font-size: 17px; line-height: 1; padding: 3px 11px; }
+
+#cargo-ui { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); width: min(780px, calc(100vw - 32px)); z-index: 30; opacity: 0; pointer-events: none; background: rgba(255,246,226,.97); color: #3a2414; border: 2px solid #c4512c; border-radius: 14px; padding: 12px 16px; font-size: 14.5px; line-height: 1.5; transition: opacity .25s, transform .25s; }
+#cargo-ui.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+#cargo-ui p { margin: 4px 0 0; } #cargo-ui .cg-hint { color: #6a4a28; }
+#cargo-ui .cg-top { display: flex; align-items: center; gap: 12px; } #cargo-ui .cg-top b { font: 700 17px var(--font, Georgia, serif); color: #a8421f; flex: 1; }
+#cargo-ui .cg-prog { font: 700 12.5px var(--sans, system-ui); color: #6a4a28; }

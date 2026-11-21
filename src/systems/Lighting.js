@@ -87,9 +87,10 @@ export class DayNight {
     // cool fill: blue shadows
     this.hemi.color.copy(C(0x6c8fd6).lerp(C(0xa8cdf5), sstep(0, 30, elev)).lerp(C(0x1f2a5a), 1 - sstep(-10, 3, elev)));
     this.hemi.groundColor.copy(C(0x8a4f32).lerp(C(0xb8774c), sstep(0, 30, elev)).lerp(C(0x1a1420), 1 - sstep(-10, 3, elev)));
-    this.hemi.intensity = (0.28 + 0.75 * sstep(-8, 20, elev)) * c.hemiBoost;
+    const night = 1 - sstep(-8, 4, elev);
+    this.hemi.intensity = (0.28 + 0.75 * sstep(-8, 20, elev)) * c.hemiBoost + night * (c.nightHemi ?? 0);
     this.fill.color.set(0x6f98ff);
-    this.fill.intensity = 0.35 * sstep(-8, 15, elev) * (c.fillBoost ?? 1);
+    this.fill.intensity = 0.35 * sstep(-8, 15, elev) * (c.fillBoost ?? 1) + night * (c.moon ?? 0);
     this.fill.position.set(-this.sunDir.x, 0.6, -this.sunDir.z).multiplyScalar(60);
     // fog follows the horizon colour
     const fog = C(0x0b1330).lerp(C(0xc0504a), sstep(-10, -1, elev)).lerp(C(0xf0b48a), sstep(-2, 8, elev)).lerp(C(0xcfe2ee), sstep(10, 40, elev));
